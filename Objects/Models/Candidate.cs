@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Objects.Models {
-    internal class Candidate {
+    public class Candidate {
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }

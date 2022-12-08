@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Objects.Models {
-    internal class Certificate {
+    public class Certificate {
         public string TitleOfCertificate { get; set; }
+        // Must have CANDIDATE
         public Candidate Candidate { get; set; }
         public int AssessmentTestCode { get; set; }
         public DateTime ExaminationDate { get; set; }
