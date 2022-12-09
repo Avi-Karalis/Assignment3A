@@ -29,5 +29,6 @@ namespace Objects.Models {
             AssessmentResultLabel = assessmentResultLabel;
             PercentageScore = percentageScore;
         }
+
     }
 }
