@@ -12,23 +12,43 @@ namespace Objects.Models {
         public int AssessmentTestCode { get; set; }
         public DateTime ExaminationDate { get; set; }
         public DateTime ScoreReportDate { get; set; }
-        public int CandidateScore { get; set; }
-        public int MaximumScore { get; set; }
+        public int CandidateScore { get 
+                { return CandidateScore; 
+            } 
+            set {
+                CandidateScore = value;
+                PercentageScoreValue =  (value/ MaximumScore)*100;
+            }
+        }
+        public int MaximumScore { get; private set; } = 100;
         public string AssessmentResultLabel { get; set; }
-        public string PercentageScore { get; set; }
-        
-        
-        public Certificate(string titleOfCertificate, Candidate candidate, int assessmentTestCode, DateTime examinationDate, DateTime scoreReportDate, int candidateScore, int maximumScore, string assessmentResultLabel, string percentageScore) {
+        private int PercentageScoreValue {
+            get { return PercentageScoreValue; }
+            set {
+                
+                if (value >= 65) {
+                    AssessmentResultLabel = "Pass";
+                } else {
+                    AssessmentResultLabel = "Fail";
+                }
+                PercentageScoreValue = value;
+                PercentageScore = value + "%";
+            }
+        }
+        public string PercentageScore { get; private set; }
+
+
+        public Certificate(string titleOfCertificate, Candidate candidate, int assessmentTestCode, DateTime examinationDate, DateTime scoreReportDate, int candidateScore, string assessmentResultLabel, string percentageScore) {
             TitleOfCertificate = titleOfCertificate;
             Candidate = candidate;
             AssessmentTestCode = assessmentTestCode;
             ExaminationDate = examinationDate;
             ScoreReportDate = scoreReportDate;
             CandidateScore = candidateScore;
-            MaximumScore = maximumScore;
             AssessmentResultLabel = assessmentResultLabel;
             PercentageScore = percentageScore;
         }
 
     }
+
 }

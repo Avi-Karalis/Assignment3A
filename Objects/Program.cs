@@ -12,8 +12,6 @@ namespace Objects {
         static void Main(string[] args) {
            Candidate candidate = new Candidate();
             Console.WriteLine(candidate);
-            //Certificate certificate = new Certificate();
-            //certificate.Candidate = "random dude";
 
         }
     }

@@ -57,8 +57,6 @@ namespace Objects.Models {
             PhotoIdDate = photoIdDate;
         }
 
-
-
         public Candidate() {
             FirstName = GenerateSth(new FieldOptionsFirstName());
 
