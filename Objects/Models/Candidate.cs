@@ -7,9 +7,12 @@ using System.Linq;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
+using System.Xml.Linq;
 
 namespace Objects.Models {
     public class Candidate {
+
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -54,26 +57,24 @@ namespace Objects.Models {
             PhotoIdDate = photoIdDate;
         }
 
+
+
         public Candidate() {
-            FirstName = RandomizerFactory.GetRandomizer(new FieldOptionsFirstName()).Generate();
+            FirstName = GenerateSth(new FieldOptionsFirstName());
 
-            MiddleName = RandomizerFactory.GetRandomizer(new FieldOptionsFirstName()).Generate();
+            MiddleName = GenerateSth(new FieldOptionsFirstName());
 
-            LastName = RandomizerFactory.GetRandomizer(new FieldOptionsLastName()).Generate();
+            LastName = GenerateSth(new FieldOptionsLastName());
 
-            CandidateNumber = (int)RandomizerFactory.GetRandomizer(new FieldOptionsInteger()).Generate();
+            CandidateNumber = GenerateSth(new FieldOptionsInteger());
 
-            if ((bool)RandomizerFactory.GetRandomizer(new FieldOptionsBoolean()).Generate()) {
-                Gender = "Male";
-            } else {
-                Gender = "Female";
-            }
+            Gender = RandomGender();
 
-            NativeLanguage = RandomizerFactory.GetRandomizer(new FieldOptionsCountry()).Generate();
+            NativeLanguage = GenerateSth(new FieldOptionsCountry());
 
-            CountryOfResidence = RandomizerFactory.GetRandomizer(new FieldOptionsCountry()).Generate();
+            CountryOfResidence = GenerateSth(new FieldOptionsCountry());
 
-            Birthdate = (DateTime)RandomizerFactory.GetRandomizer(new FieldOptionsDateTime()).Generate();
+            Birthdate = GenerateSth(new FieldOptionsDateTime());
 
             Email = RandomizerFactory.GetRandomizer(new FieldOptionsEmailAddress()).Generate();
 
@@ -81,32 +82,61 @@ namespace Objects.Models {
 
             MobileNumber = RandomMobile();
 
-            Address1 = RandomizerFactory.GetRandomizer(new FieldOptionsFullName()).Generate();
+            Address1 = GenerateSth(new FieldOptionsLastName());
 
             FieldOptionsShort shorts = new FieldOptionsShort();
             shorts.Max = 250;
-            Address2 = RandomizerFactory.GetRandomizer(shorts).Generate().ToString();
+            Address2 = GenerateSth(shorts);
 
             FieldOptionsInteger pc = new FieldOptionsInteger();
             pc.Max = 99999;
-            PostalCode = RandomizerFactory.GetRandomizer(pc).Generate().ToString();
+            PostalCode = GenerateSth(pc);
 
-            Town = RandomizerFactory.GetRandomizer(new FieldOptionsCity()).Generate();
+            Town = GenerateSth(new FieldOptionsCity());
 
-            Province = RandomizerFactory.GetRandomizer(new FieldOptionsCity()).Generate();
+            Province = GenerateSth(new FieldOptionsCity());
 
-            if ((bool)RandomizerFactory.GetRandomizer(new FieldOptionsBoolean()).Generate()) {
-                PhotoIdType = "National ID Card";
-            } else {
-                PhotoIdType = "Passport";
-            }
+            RandomPhotoIdType();
 
             PhotoIdNumber = RandomId();
 
-            PhotoIdDate = (DateTime)RandomizerFactory.GetRandomizer(new FieldOptionsDateTime()).Generate();
-
+            PhotoIdDate = (DateTime)GenerateSth(new FieldOptionsDateTime());
 
         }
+
+        private static dynamic GenerateSth(FieldOptionsAbstract test) {
+            return RandomizerFactory.GetRandomizer((dynamic)test).Generate();
+        }
+
+        static string RandomPhotoIdType() {
+            if ((bool)RandomizerFactory.GetRandomizer(new FieldOptionsBoolean()).Generate()) {
+                return "National ID Card";
+            } else {
+                return "Passport";
+            }
+        }
+
+        static string RandomPostalCode() {
+            FieldOptionsInteger pc = new FieldOptionsInteger();
+            pc.Max = 99999;
+            return RandomizerFactory.GetRandomizer(pc).Generate().ToString();
+        }
+
+
+         static string RandomAddressNumber() {
+         FieldOptionsShort shorts = new FieldOptionsShort();
+            shorts.Max = 250;
+            return RandomizerFactory.GetRandomizer   (shorts).Generate().ToString();
+         }
+
+        static string RandomGender() {
+            if ((bool)RandomizerFactory.GetRandomizer(new FieldOptionsBoolean()).Generate()) {
+                return "Male";
+            } else {
+                return "Female";
+            }
+        }
+        
         static string RandomMobile() {
             StringBuilder sb = new StringBuilder();
             sb.Append("+30");
@@ -118,7 +148,7 @@ namespace Objects.Models {
         }
         static string RandomLandLine() {
             StringBuilder sb = new StringBuilder();
-            sb.Append("+210");
+            sb.Append("+30210");
             FieldOptionsLong fieldOptionsLong = new FieldOptionsLong();
             fieldOptionsLong.Min = 1000000;
             fieldOptionsLong.Max = 9999999;
@@ -129,6 +159,9 @@ namespace Objects.Models {
         static string RandomId() {
             StringBuilder sb = new StringBuilder();
             FieldOptionsText twoLetters = new FieldOptionsText();
+            twoLetters.UseLowercase = false;
+            twoLetters.UseSpecial = false;
+            twoLetters.UseNumber = false;
             twoLetters.Min = 2;
             twoLetters.Max = 2;
             sb.Append(RandomizerFactory.GetRandomizer(twoLetters).Generate());
@@ -142,5 +175,40 @@ namespace Objects.Models {
         public override string ToString() {
             return $"FirstName = {FirstName}\nMiddleName = {MiddleName}\nLastName = {LastName}\nCandidateNumber = {CandidateNumber}\nGender = {Gender}\nNativeLanguage = {NativeLanguage}\nCountryOfResidence = {CountryOfResidence}\nBirthdate = {Birthdate}\nEmail = {Email} \nLandLineNumber = {LandLineNumber} \nMobileNumber = {MobileNumber} \nAddress1 = {Address1}\nAddress2 = {Address2}\nPostalCode = {PostalCode}\nTown = {Town}\nProvince = {Province}\nPhotoIdType = {PhotoIdType}\nPhotoIdNumber = {PhotoIdNumber}\nPhotoIdDate {PhotoIdDate}";
         }
+
+
+        //private Dictionary<string, Object> _gen = new Dictionary<string, Object>() {
+        //    {"FirstName", GenerateSth(new FieldOptionsFirstName())},
+        //    {"MiddleName", GenerateSth(new FieldOptionsFirstName())},
+        //    {"LastName", GenerateSth(new FieldOptionsLastName())},
+        //    {"CandidateNumber", GenerateSth(new FieldOptionsInteger())},
+        //    {"NativeLanguage", GenerateSth(new FieldOptionsCountry())},
+        //    {"CountryOfResidence", GenerateSth(new FieldOptionsCountry())},
+        //    {"Birthdate", GenerateSth(new FieldOptionsDateTime())},
+        //    {"Email", GenerateSth(new FieldOptionsEmailAddress())},
+        //    {"Address1", GenerateSth(new FieldOptionsFullName())},
+        //    {"Town", GenerateSth(new FieldOptionsCity())},
+        //    {"Province", GenerateSth(new FieldOptionsCity())},
+        //    {"LandLineNumber", RandomLandLine()},
+        //    {"MobileNumber", RandomMobile()},
+        //    {"Gender", RandomGender()},
+        //    {"Address2", RandomAddressNumber()},
+        //    {"PhotoIdDate", GenerateSth(new FieldOptionsDateTime())},
+        //    {"PhotoIdNumber", RandomId()},
+        //    {"PostalCode", RandomPostalCode()},
+        //    {"PhotoIdType", RandomPhotoIdType()},
+
+        //};
+        //public Candidate() {
+        //    // item key = property που θα γινει set, item value = poy θα μπει στο property 
+        //    foreach (var item in _gen) {
+        //        PropertyInfo property = this.GetType().GetProperty(item.Key);
+        //        if (null != property && property.CanWrite) {
+        //            property.SetValue(this, item.Value, null);
+        //        }
+        //    }
+
+        //}
+
     }
 }
