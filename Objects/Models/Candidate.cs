@@ -9,14 +9,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Xml.Linq;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Objects.Models {
+    [Table("Candidates")]
     public class Candidate {
 
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+        [Key]
         public int CandidateNumber  { get; set; }
         public string Gender { get; set; }
         public string NativeLanguage { get; set; }

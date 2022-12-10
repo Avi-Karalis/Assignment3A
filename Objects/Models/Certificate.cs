@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Objects.Models {
+    [Table("Certificates")]
     public class Certificate {
+        [Key]
         public string TitleOfCertificate { get; set; }
         // Must have CANDIDATE
+        [ForeignKey("CandidateId")]
         public Candidate Candidate { get; set; }
         public int AssessmentTestCode { get; set; }
         public DateTime ExaminationDate { get; set; }

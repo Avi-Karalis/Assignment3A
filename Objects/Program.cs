@@ -11,7 +11,7 @@ namespace Objects {
     public class Program {
         static void Main(string[] args) {
            Candidate candidate = new Candidate();
-            Console.WriteLine(candidate);
+           Console.WriteLine(candidate);
 
         }
     }
