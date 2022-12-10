@@ -11,6 +11,10 @@ namespace Main {
         static void Main(string[] args) {
 
             Menu.Program.Main(null);
+
+            //Objects contains Candidates and Certificates Classes
+            //CodeFirstDB connects the program to the DB
+            //Menu contains the Menu that the user will see 
         }
     }
 }

@@ -75,7 +75,7 @@ namespace Objects.Models {
 
             CountryOfResidence = GenerateSth(new FieldOptionsCountry());
 
-            Birthdate = GenerateSth(new FieldOptionsDateTime());
+            Birthdate = GenerateBirthdate();
 
             Email = RandomizerFactory.GetRandomizer(new FieldOptionsEmailAddress()).Generate();
 
@@ -87,22 +87,30 @@ namespace Objects.Models {
 
             FieldOptionsShort shorts = new FieldOptionsShort();
             shorts.Max = 250;
-            Address2 = GenerateSth(shorts);
+            Address2 = Convert.ToString(GenerateSth(shorts));
 
             FieldOptionsInteger pc = new FieldOptionsInteger();
             pc.Max = 99999;
-            PostalCode = GenerateSth(pc);
+            PostalCode = Convert.ToString(GenerateSth(pc));
 
             Town = GenerateSth(new FieldOptionsCity());
 
             Province = GenerateSth(new FieldOptionsCity());
 
-            RandomPhotoIdType();
+            PhotoIdType = RandomPhotoIdType();
 
             PhotoIdNumber = RandomId();
 
             PhotoIdDate = (DateTime)GenerateSth(new FieldOptionsDateTime());
 
+        }
+        private static dynamic GenerateBirthdate() {
+            DateTime bdaymax = new DateTime(2009, 12, 31);
+            DateTime bdaymin = new DateTime(1912, 12, 31);
+            FieldOptionsDateTime bday = new FieldOptionsDateTime();
+            bday.To = bdaymax;
+            bday.From = bdaymin;
+            return RandomizerFactory.GetRandomizer(bday).Generate();
         }
 
         private static dynamic GenerateSth(FieldOptionsAbstract test) {
@@ -127,7 +135,7 @@ namespace Objects.Models {
          static string RandomAddressNumber() {
          FieldOptionsShort shorts = new FieldOptionsShort();
             shorts.Max = 250;
-            return RandomizerFactory.GetRandomizer   (shorts).Generate().ToString();
+            return RandomizerFactory.GetRandomizer(shorts).Generate().ToString();
          }
 
         static string RandomGender() {

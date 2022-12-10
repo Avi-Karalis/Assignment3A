@@ -11,7 +11,7 @@ namespace Menu {
             .Add("1. Candidate CRUD", () => CrudMethod())
             .Add("2. Candidate Result", () => CandidateResults())
             .Add("3. Back", ConsoleMenu.Close)
-            .Configure(getRekt());
+            .Configure(adminGetRekt());
 
             var candidateSubMenu = new ConsoleMenu(args, level: 1)
            .Add("1. Candidate Certificates", () => CrudMethod())
@@ -46,6 +46,16 @@ namespace Menu {
                 Console.BackgroundColor = ConsoleColor.DarkRed;
             };
         }
-
+        static Action<MenuConfig> adminGetRekt() {
+            return config => {
+                config.Selector = "8==D";
+                config.SelectedItemForegroundColor = ConsoleColor.Black;
+                config.SelectedItemBackgroundColor= ConsoleColor.Green;
+                config.ItemForegroundColor = ConsoleColor.Green;
+                config.ItemBackgroundColor = ConsoleColor.Black;
+                config.WriteHeaderAction = () => Console.WriteLine("Welcome to the best certification company! Select your login!");
+                
+            };
+        }
     }
 }
