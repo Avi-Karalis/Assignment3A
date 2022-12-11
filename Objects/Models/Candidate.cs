@@ -36,12 +36,11 @@ namespace Objects.Models {
         public string PhotoIdNumber { get; set; }
         public DateTime PhotoIdDate { get; set; }
 
-        public Candidate(string firstName, string middleName, string lastName, int candidateNumber, string gender, string nativeLanguage, string countryOfResidence, DateTime birthdate, string email, string landLineNumber, string mobileNumber, string address1, string address2, string postalCode, string town, string province, string photoIdType, string photoIdNumber, DateTime photoIdDate) {
+        public Candidate(string firstName, string middleName, string lastName, string gender, string nativeLanguage, string countryOfResidence, DateTime birthdate, string email, string landLineNumber, string mobileNumber, string address1, string address2, string postalCode, string town, string province, string photoIdType, string photoIdNumber, DateTime photoIdDate) {
             
             FirstName = firstName;
             MiddleName = middleName;
             LastName = lastName;
-            CandidateNumber = candidateNumber;
             Gender = gender;
             NativeLanguage = nativeLanguage;
             CountryOfResidence = countryOfResidence;

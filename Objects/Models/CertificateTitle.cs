@@ -16,6 +16,9 @@ namespace Objects.Models {
             Title = title;
         }
 
+        public CertificateTitle() {
+
+        }
         override public string ToString() {
             return Title;
         }

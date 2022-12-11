@@ -23,5 +23,8 @@ namespace Objects.Models {
             Mark = mark;
             Certificate = certificate;
         }
+        public CertificateTopic() {
+
+        }
     }
 }

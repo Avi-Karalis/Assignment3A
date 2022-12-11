@@ -8,36 +8,67 @@ using CodeFirstDB;
 using CodeFirstDB.Services.Data;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Data.Entity.Migrations;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Menu {
     public class Program {
+        static AppDBContext appDBContext = new AppDBContext();
         public static void Main(string[] args) {
 
-            var adminSubMenu = new ConsoleMenu(args, level: 1)
-            .Add("1. Candidate CRUD", () => CrudMethod())
-            .Add("2. Candidate Result", () => CandidateResults())
-            .Add("3. Initialise Database", () => InitialiseDatabase())
-            .Add("4. Back", ConsoleMenu.Close)
-            .Configure(adminGetRekt());
+            while (true) {
+                Console.WriteLine("Welcome to the best certification company in the world, please select your login type\n1. Admin\n2. Candidate\n3. Exit");
+                int menu = Convert.ToInt32(Console.ReadLine());
+                switch (menu) {
+                    case 1:
+                        AdminLogin();
+                        break;
 
-            var candidateSubMenu = new ConsoleMenu(args, level: 1)
-           .Add("1. Candidate Certificates", () => CrudMethod())
-           .Add("2. Print to PDF", () => CandidateResults())
-           .Add("3. Back", ConsoleMenu.Close)
-           .Configure(getRekt());
+                    //case 2:
+                    //    CandidateLogin();
+                    //    break;
 
-            var mainMenu = new ConsoleMenu(args, level: 0)
-            .Add("1. Admin", adminSubMenu.Show)
-            .Add("2. Candidate", candidateSubMenu.Show)
-            .Add("3. Exit", () => Environment.Exit(0))
-            .Configure(getRekt());
+                    case 3:
+                        return;
 
-            mainMenu.Show();
+
+                }
+            }
+            //var candidateSubMenu = new ConsoleMenu(args, level: 1)
+            //   .Add("1. Candidate Certificates", () => CrudMethod())
+            //   .Add("2. Print to PDF", () => CandidateResults())
+            //   .Add("3. Back", ConsoleMenu.Close)
+            //   .Configure(getRekt());
+
         }
 
+        public static void AdminLogin() {
+            Console.Clear();
+            while (true) {
+                Console.WriteLine("\n----------------------------------------------------\nINITIALISE DATABASE TO GET MORE CANDIDATES TO VIEW\n----------------------------------------------------\nSelect what you want to do\n1. Candidate CRUD\n2. View candidate results \n3. Initialize Database\n4 Go back");
+                int menu = Convert.ToInt32(Console.ReadLine());
+                switch (menu) {
+                    case 1:
+                        CandidateCrud();
+                        break;
 
+                    case 2:
+                        CandidateResults();
+                        break;
+
+                    case 3:
+                        InitialiseDatabase();
+                        break;
+                    case 4:
+                        return;
+
+
+                }
+            }
+
+            }
         public static void InitialiseDatabase() {
-            AppDBContext appDBContext = new AppDBContext();
             CertificateTitle CsFoundation = new CertificateTitle("C# Foundation");
             CertificateTitle CsAdvanced = new CertificateTitle("C# Advanced");
             CertificateTitle CssFoundation = new CertificateTitle("CSS Foundation");
@@ -94,34 +125,299 @@ namespace Menu {
            
             
         }
+        public static void CandidateCrud() {
+            Console.Clear();
+            while (true) {
+                Console.WriteLine("Select what you want to do\n1. Create a Candidate\n2. View a Candidate\n3. Update a Candidate\n4. Delete a Candidate\n5. Go back");
+                int menu = Convert.ToInt32(Console.ReadLine());
+                switch (menu) {
+                    case 1:
+                        CreateCandidate();
+                        break;
 
-        public static void CrudMethod() {
-            Console.WriteLine("I make a crud");
-        }
-        public static void CandidateResults() {
-            Console.WriteLine("I show a list of Candidates");
+                    case 2:
+                        ReadCandidate();
+                        break;
+
+                    case 3:
+                        UpdateCandidate();
+                        break;
+                    case 4:
+                        DeleteCandidate();
+                        break;
+                    case 5:
+                        return;
+
+                }
+            }
+
         }
 
-        static Action<MenuConfig> getRekt() {
-            return config => {
-                config.Selector = "8=D";
-                config.SelectedItemForegroundColor = ConsoleColor.DarkMagenta;
-                config.WriteHeaderAction = () => Console.WriteLine("Welcome to the best certification company! Select your login!");
-                config.SelectedItemBackgroundColor = ConsoleColor.Yellow;
-                config.ItemBackgroundColor = ConsoleColor.DarkRed;
-                Console.BackgroundColor = ConsoleColor.DarkRed;
-            };
+
+        public static void CreateCandidate() {
+            Console.Clear();
+            Candidate createdByUser = new Candidate(Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Convert.ToDateTime(Console.ReadLine()), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Convert.ToDateTime(Console.ReadLine()));
+
+            Console.WriteLine("Give First Name");
+            createdByUser.FirstName = Console.ReadLine();
+           
+
+            Console.WriteLine("Give Middle Name (if none press enter)");
+            createdByUser.MiddleName = Console.ReadLine();
+
+            Console.WriteLine("Give Last Name");
+            createdByUser.LastName = Console.ReadLine();
+
+            Console.WriteLine("Give Gender");
+            createdByUser.Gender = Console.ReadLine();
+
+            Console.WriteLine("Give Native Language");
+            createdByUser.NativeLanguage = Console.ReadLine();
+
+            Console.WriteLine("Give Country Of Residence");
+            createdByUser.CountryOfResidence = Console.ReadLine();
+
+            Console.WriteLine("Give Birthdate YYYY-MM-DD"); createdByUser.Birthdate = Convert.ToDateTime(Console.ReadLine());
+
+            Console.WriteLine("Give Email");
+            createdByUser.Email = Console.ReadLine();
+
+            Console.WriteLine("Give LandLine Number");
+            createdByUser.LandLineNumber = Console.ReadLine();
+
+            Console.WriteLine("Give Mobile Number");
+            createdByUser.MobileNumber = Console.ReadLine();
+
+            Console.WriteLine("Give Street Name");
+            createdByUser.Address1 = Console.ReadLine();
+
+            Console.WriteLine("Give Street number");
+            createdByUser.Address2 = Console.ReadLine();
+
+            Console.WriteLine("Give Postal Code");
+            createdByUser.PostalCode = Console.ReadLine();
+
+            Console.WriteLine("Give Town of residence");
+            createdByUser.Town = Console.ReadLine();
+
+            Console.WriteLine("Give Province of residence");
+            createdByUser.Province = Console.ReadLine();
+
+            Console.WriteLine("Give Identification Type(Passport/National Card)");
+            createdByUser.PhotoIdType = Console.ReadLine();
+
+            Console.WriteLine("Give Identification number");
+            createdByUser.PhotoIdNumber = Console.ReadLine();
+
+            Console.WriteLine("Identification Issue date (YYYY-MM-DD)");
+            createdByUser.PhotoIdDate = Convert.ToDateTime(Console.ReadLine());
         }
-        static Action<MenuConfig> adminGetRekt() {
-            return config => {
-                config.Selector = "8==D";
-                config.SelectedItemForegroundColor = ConsoleColor.Black;
-                config.SelectedItemBackgroundColor= ConsoleColor.Green;
-                config.ItemForegroundColor = ConsoleColor.Green;
-                config.ItemBackgroundColor = ConsoleColor.Black;
-                config.WriteHeaderAction = () => Console.WriteLine("The first thing you need to do is 'Initialize Database'!!!");
+
+        public static void UpdateCandidate() {
+            Console.Clear();
+            Console.WriteLine("Please provide Candidate Id of the candidate you want to update");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Candidate updatecandidate = appDBContext.Candidates.Find(id);
+            Console.WriteLine(updatecandidate);
+            Console.WriteLine("Write the number of the entry you want to update:\n1. FirstName\n2.MiddleName\n3.LastName\n4.Gender\n5.NativeLanguage\n6.CountryOfResidence\n7.Birthdate\n8.Email\n9.LandLineNumber\n10.MobileNumber\n11.Address1\n12.Address2\n13.PostalCode\n14.Town\n15.Province\n16.PhotoIdType\n17.PhotoIdNumber\n18.PhotoIdDate\n19. Go back");
+            int choice = Convert.ToInt32(Console.ReadLine());
+            switch (choice) {
+                case 1:
+                    Console.WriteLine($"write new First Name");
+                    updatecandidate.FirstName = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 2:
+                    Console.WriteLine($"write new Middle Name");
+                    updatecandidate.MiddleName = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 3:
+                    Console.WriteLine($"write new Last Name");
+                    updatecandidate.LastName = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 4:
+                    Console.WriteLine($"write new Gender");
+                    updatecandidate.Gender = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 5:
+                    Console.WriteLine($"write new Native Language");
+                    updatecandidate.NativeLanguage = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 6:
+                    Console.WriteLine($"write new Country of residentce (giati mas to kaneis afto?)");
+                    updatecandidate.CountryOfResidence = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 7:
+                    Console.WriteLine($"write new Birthdate (seriously just 5 properties are enough)");
+                    updatecandidate.Birthdate = Convert.ToDateTime(Console.ReadLine());
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 8:
+                    Console.WriteLine($"write new Email");
+                    updatecandidate.Email = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 9:
+                    Console.WriteLine($"write new Landnline Number");
+                    updatecandidate.LandLineNumber = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 10:
+                    Console.WriteLine($"write new Mobile Number");
+                    updatecandidate.MobileNumber = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 11:
+                    Console.WriteLine($"write new Adress street name");
+                    updatecandidate.Address1 = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 12:
+                    Console.WriteLine($"write new Street number");
+                    updatecandidate.Address2 = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 13:
+                    Console.WriteLine($"write new Postal Code");
+                    updatecandidate.PostalCode = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 14:
+                    Console.WriteLine($"write new Town");
+                    updatecandidate.Town = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 15:
+                    Console.WriteLine($"write new Province");
+                    updatecandidate.Province = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 16:
+                    Console.WriteLine($"write new ID Type");
+                    updatecandidate.PhotoIdType = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 17:
+                    Console.WriteLine($"write new Id Number");
+                    updatecandidate.PhotoIdNumber = Console.ReadLine();
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 18:
+                    Console.WriteLine($"write new ID Issue Date");
+                    updatecandidate.PhotoIdDate = Convert.ToDateTime(Console.ReadLine());
+                    appDBContext.Candidates.AddOrUpdate(updatecandidate);
+                    appDBContext.SaveChanges();
+                    Console.WriteLine(updatecandidate);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadLine();
+                    break;
+                case 19:
+                    return;
+
+            }
                 
-            };
+                
         }
+        public static void ReadCandidate() {
+            Console.Clear();
+            Console.WriteLine("Please provide Candidate Id");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Candidate readcandidate = appDBContext.Candidates.Find(id);
+            Console.WriteLine(readcandidate);
+        }
+        public static void DeleteCandidate() {
+            Console.Clear();
+            Console.WriteLine("Please provide Candidate Id you want to delete");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Candidate readcandidate = appDBContext.Candidates.Find(id);
+            appDBContext.Candidates.Remove(readcandidate);
+        }
+
+
+
+        public static void CandidateResults() {
+            Console.Clear();
+            foreach (Certificate certificate in appDBContext.Certificates.ToList()) {
+                Console.WriteLine(certificate);
+            }
+            
+            
+        }
+
+       
+      
     }
 }

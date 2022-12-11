@@ -54,7 +54,9 @@ namespace Objects.Models {
             CandidateScore = candidateScore;
 
         }
+        public Certificate() {
 
+        }
         override public string ToString() {
            return $"\nCertificateID {CertificateId},\n" +
                 $"Certificate title: {CertificateTitle}\n" +
