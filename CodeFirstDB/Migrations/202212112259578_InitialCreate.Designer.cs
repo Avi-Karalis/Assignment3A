@@ -13,7 +13,7 @@ namespace CodeFirstDB.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202212111826100_InitialCreate"; }
+            get { return "202212112259578_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

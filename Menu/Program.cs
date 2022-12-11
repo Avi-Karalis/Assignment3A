@@ -1,5 +1,4 @@
-﻿using ConsoleTools;
-using Objects.Models;
+﻿using Objects.Models;
 using Objects;
 using System;
 using System.ComponentModel.Design;
@@ -11,6 +10,12 @@ using System.Data.Entity.Validation;
 using System.Data.Entity.Migrations;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel;
+using System.Xml.Linq;
+using System.Text;
+using System.Collections;
+using ArrayToPdf;
+using System.IO;
 
 namespace Menu {
     public class Program {
@@ -25,9 +30,9 @@ namespace Menu {
                         AdminLogin();
                         break;
 
-                    //case 2:
-                    //    CandidateLogin();
-                    //    break;
+                    case 2:
+                        CandidateLogin();
+                        break;
 
                     case 3:
                         return;
@@ -35,11 +40,6 @@ namespace Menu {
 
                 }
             }
-            //var candidateSubMenu = new ConsoleMenu(args, level: 1)
-            //   .Add("1. Candidate Certificates", () => CrudMethod())
-            //   .Add("2. Print to PDF", () => CandidateResults())
-            //   .Add("3. Back", ConsoleMenu.Close)
-            //   .Configure(getRekt());
 
         }
 
@@ -67,7 +67,7 @@ namespace Menu {
                 }
             }
 
-            }
+        }
         public static void InitialiseDatabase() {
             CertificateTitle CsFoundation = new CertificateTitle("C# Foundation");
             CertificateTitle CsAdvanced = new CertificateTitle("C# Advanced");
@@ -122,7 +122,15 @@ namespace Menu {
             CertificateTopic csadvanced = new CertificateTopic("How to be the best C# programmer", 100, certificate5);
 
             appDBContext.CertificateTopics.Add(cssyntax);
-           
+            appDBContext.CertificateTopics.Add(csoop);
+            appDBContext.CertificateTopics.Add(cssfoundation1b);
+            appDBContext.CertificateTopics.Add(cssyntax2);
+            appDBContext.CertificateTopics.Add(jsfoundation2);
+            appDBContext.CertificateTopics.Add(csFoundation3);
+            appDBContext.CertificateTopics.Add(htmlfoundation4);
+            appDBContext.CertificateTopics.Add(html2foundation4);
+            appDBContext.CertificateTopics.Add(csadvanced);
+            appDBContext.SaveChanges();
             
         }
         public static void CandidateCrud() {
@@ -152,8 +160,6 @@ namespace Menu {
             }
 
         }
-
-
         public static void CreateCandidate() {
             Console.Clear();
             Candidate createdByUser = new Candidate(Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Convert.ToDateTime(Console.ReadLine()), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Convert.ToDateTime(Console.ReadLine()));
@@ -212,7 +218,13 @@ namespace Menu {
             Console.WriteLine("Identification Issue date (YYYY-MM-DD)");
             createdByUser.PhotoIdDate = Convert.ToDateTime(Console.ReadLine());
         }
-
+        public static void ReadCandidate() {
+            Console.Clear();
+            Console.WriteLine("Please provide Candidate Id");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Candidate readcandidate = appDBContext.Candidates.Find(id);
+            Console.WriteLine(readcandidate);
+        }
         public static void UpdateCandidate() {
             Console.Clear();
             Console.WriteLine("Please provide Candidate Id of the candidate you want to update");
@@ -391,13 +403,6 @@ namespace Menu {
                 
                 
         }
-        public static void ReadCandidate() {
-            Console.Clear();
-            Console.WriteLine("Please provide Candidate Id");
-            int id = Convert.ToInt32(Console.ReadLine());
-            Candidate readcandidate = appDBContext.Candidates.Find(id);
-            Console.WriteLine(readcandidate);
-        }
         public static void DeleteCandidate() {
             Console.Clear();
             Console.WriteLine("Please provide Candidate Id you want to delete");
@@ -405,19 +410,58 @@ namespace Menu {
             Candidate readcandidate = appDBContext.Candidates.Find(id);
             appDBContext.Candidates.Remove(readcandidate);
         }
-
-
-
         public static void CandidateResults() {
             Console.Clear();
-            foreach (Certificate certificate in appDBContext.Certificates.ToList()) {
+            Console.WriteLine("Give the ID of the candidate you want to view the results for");
+            int candid = Convert.ToInt32(Console.ReadLine());
+            foreach (Certificate certificate in appDBContext.Certificates.SqlQuery($"SELECT * FROM Certificates WHERE CandidateNumber = {candid}")) {
                 Console.WriteLine(certificate);
             }
             
             
         }
 
-       
-      
+        public static void CandidateLogin() {
+            Console.Clear();
+            while (true) {
+                Console.WriteLine("1.Show Candidate's Certificates\n2.Export Certificates in PDF\n3. Go back");
+                int menu = Convert.ToInt32(Console.ReadLine());
+                switch (menu) {
+                    case 1:
+                        ShowCandidateCerts();
+                        break;
+
+                    case 2:
+                        ExportCerts();
+                        break;
+
+                    case 3:
+                        return;
+
+
+                }
+            }
+        }
+        public static void ShowCandidateCerts() {
+            Console.WriteLine("Give the ID of the candidate you want to view the certificates");
+            int candnumb = Convert.ToInt32(Console.ReadLine());
+            var viewcands = appDBContext.Certificates.SqlQuery($"SELECT * FROM Certificates WHERE CandidateNumber = {candnumb}");
+            foreach (Certificate cert in viewcands.ToList()) {
+                Console.WriteLine(cert);
+            }
+            Console.WriteLine(viewcands.ToList());
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+        }
+
+        public static void ExportCerts() {
+            Console.WriteLine("Give the ID of the candidate you want to print certificates");
+            int candnumb = Convert.ToInt32(Console.ReadLine());
+            var viewcands = appDBContext.Certificates.SqlQuery($"SELECT * FROM Certificates WHERE CandidateNumber = {candnumb}");
+            byte[] pdf = viewcands.ToList().ToPdf();
+            File.WriteAllBytes("result.pdf", pdf);
+
+
+        }
     }
 }

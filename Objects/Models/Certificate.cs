@@ -58,17 +58,17 @@ namespace Objects.Models {
 
         }
         override public string ToString() {
-           return $"\nCertificateID {CertificateId},\n" +
-                $"Certificate title: {CertificateTitle}\n" +
-                $"Candidate: {Candidate}\n" +
-                $"assessmentTestCode: {AssessmentTestCode}\n" +
-                $"CandidateScore: {CandidateScore}\n" +
-                $"AssessmentResultLabel: {AssessmentResultLabel}\n" +
-                $"PercentageScore: {PercentageScore}\n";
+            return $"\nCertificateID {CertificateId},\n" +
+                 $"Certificate title: {CertificateTitle}\n" +
+                 $"Candidate Lastname: {Candidate.LastName}, First name{Candidate.FirstName}, number {CandidateNumber}\n" +
+                 $"assessmentTestCode: {AssessmentTestCode}\n" +
+                 $"CandidateScore: {CandidateScore}\n" +
+                 $"AssessmentResultLabel: {AssessmentResultLabel}\n" +
+                 $"PercentageScore: {PercentageScore}\n";
 
         }
 
-    
+
     }
 
 }
