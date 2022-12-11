@@ -449,7 +449,7 @@ namespace Menu {
             foreach (Certificate cert in viewcands.ToList()) {
                 Console.WriteLine(cert);
             }
-            Console.WriteLine(viewcands.ToList());
+            
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
         }

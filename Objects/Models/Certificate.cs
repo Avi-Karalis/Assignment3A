@@ -60,7 +60,7 @@ namespace Objects.Models {
         override public string ToString() {
             return $"\nCertificateID {CertificateId},\n" +
                  $"Certificate title: {CertificateTitle}\n" +
-                 $"Candidate Lastname: {Candidate.LastName}, First name{Candidate.FirstName}, number {CandidateNumber}\n" +
+                 $"Candidate| Lastname: {Candidate.LastName}\n First name: {Candidate.FirstName}\nCandidate number: {CandidateNumber}\n" +
                  $"assessmentTestCode: {AssessmentTestCode}\n" +
                  $"CandidateScore: {CandidateScore}\n" +
                  $"AssessmentResultLabel: {AssessmentResultLabel}\n" +
