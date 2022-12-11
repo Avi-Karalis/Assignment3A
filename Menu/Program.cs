@@ -459,7 +459,7 @@ namespace Menu {
             int candnumb = Convert.ToInt32(Console.ReadLine());
             var viewcands = appDBContext.Certificates.SqlQuery($"SELECT * FROM Certificates WHERE CandidateNumber = {candnumb}");
             byte[] pdf = viewcands.ToList().ToPdf();
-            File.WriteAllBytes("result.pdf", pdf);
+            File.WriteAllBytes($"Candidate{candnumb}results.pdf", pdf);
 
 
         }
