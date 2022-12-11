@@ -10,52 +10,63 @@ namespace Objects.Models {
     [Table("Certificates")]
     public class Certificate {
         [Key]
-        public string TitleOfCertificate { get; set; }
-        // Must have CANDIDATE
+        public int CertificateId { get; set; }
         [Required]
-        [ForeignKey("CandidateNumber")]
-        public Candidate Candidate { get; set; }
+        [ForeignKey("Title")]
+        public virtual CertificateTitle CertificateTitle { get; set; }
+        public string Title { get; set; }
+        //Must have CANDIDATE
+       [Required]
+       [ForeignKey("CandidateNumber")]
+        public virtual Candidate Candidate { get; set; }
         public int CandidateNumber { get; set; }
+
         public int AssessmentTestCode { get; set; }
         public DateTime ExaminationDate { get; set; }
         public DateTime ScoreReportDate { get; set; }
-        public int CandidateScore { get { return CandidateScore;
-            }
-            set {
-                CandidateScore = value;
-                PercentageScoreValue = (value / MaximumScore) * 100;
-            }
-        }
-        public int MaximumScore { get; private set; } = 100;
-        public string AssessmentResultLabel { get; set; }
-        private int PercentageScoreValue {
-            get { return PercentageScoreValue; }
-            set {
-
-                if (value >= 65) {
+        private int _candidateScore;
+        public int CandidateScore { get { return _candidateScore; } set {
+                _candidateScore = value;
+                int percentageScoreValue = 100 * value / MaximumScore;
+                if (percentageScoreValue >= 65) {
                     AssessmentResultLabel = "Pass";
                 } else {
                     AssessmentResultLabel = "Fail";
                 }
-                PercentageScoreValue = value;
-                PercentageScore = value + "%";
+
+                PercentageScore = percentageScoreValue + "%";
             }
         }
+        
+        public int MaximumScore { get; private set; } = 99;
+        public string AssessmentResultLabel {get; set;}
+       
         public string PercentageScore { get; private set; }
         
 
 
-        public Certificate(string titleOfCertificate, Candidate candidate, int assessmentTestCode, DateTime examinationDate, DateTime scoreReportDate, int candidateScore, string assessmentResultLabel, string percentageScore) {
-            TitleOfCertificate = titleOfCertificate;
+        public Certificate(CertificateTitle certificateTitle, Candidate candidate, int assessmentTestCode, DateTime examinationDate, DateTime scoreReportDate, int candidateScore) {
+            CertificateTitle = certificateTitle;
             Candidate = candidate;
             AssessmentTestCode = assessmentTestCode;
             ExaminationDate = examinationDate;
             ScoreReportDate = scoreReportDate;
             CandidateScore = candidateScore;
-            AssessmentResultLabel = assessmentResultLabel;
-            PercentageScore = percentageScore;
+
         }
 
+        override public string ToString() {
+           return $"\nCertificateID {CertificateId},\n" +
+                $"Certificate title: {CertificateTitle}\n" +
+                $"Candidate: {Candidate}\n" +
+                $"assessmentTestCode: {AssessmentTestCode}\n" +
+                $"CandidateScore: {CandidateScore}\n" +
+                $"AssessmentResultLabel: {AssessmentResultLabel}\n" +
+                $"PercentageScore: {PercentageScore}\n";
+
+        }
+
+    
     }
 
 }

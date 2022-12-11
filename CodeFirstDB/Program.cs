@@ -9,8 +9,8 @@ using Objects.Models;
 namespace CodeFirstDB {
     internal class Program {
         static void Main(string[] args) {
-            AppDBContext appDBContext = new AppDBContext();
-            appDBContext.Candidates.Add(new Candidate());
+            
+            
         }
     }
 }

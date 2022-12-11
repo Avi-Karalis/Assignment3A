@@ -15,7 +15,6 @@ using System.ComponentModel.DataAnnotations;
 namespace Objects.Models {
     [Table("Candidates")]
     public class Candidate {
-
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -182,7 +181,7 @@ namespace Objects.Models {
         }
 
         public override string ToString() {
-            return $"FirstName = {FirstName}\nMiddleName = {MiddleName}\nLastName = {LastName}\nCandidateNumber = {CandidateNumber}\nGender = {Gender}\nNativeLanguage = {NativeLanguage}\nCountryOfResidence = {CountryOfResidence}\nBirthdate = {Birthdate}\nEmail = {Email} \nLandLineNumber = {LandLineNumber} \nMobileNumber = {MobileNumber} \nAddress1 = {Address1}\nAddress2 = {Address2}\nPostalCode = {PostalCode}\nTown = {Town}\nProvince = {Province}\nPhotoIdType = {PhotoIdType}\nPhotoIdNumber = {PhotoIdNumber}\nPhotoIdDate {PhotoIdDate}";
+            return $"\nFirstName = {FirstName}\nMiddleName = {MiddleName}\nLastName = {LastName}\nCandidateNumber = {CandidateNumber}\nGender = {Gender}\nNativeLanguage = {NativeLanguage}\nCountryOfResidence = {CountryOfResidence}\nBirthdate = {Birthdate}\nEmail = {Email} \nLandLineNumber = {LandLineNumber} \nMobileNumber = {MobileNumber} \nAddress1 = {Address1}\nAddress2 = {Address2}\nPostalCode = {PostalCode}\nTown = {Town}\nProvince = {Province}\nPhotoIdType = {PhotoIdType}\nPhotoIdNumber = {PhotoIdNumber}\nPhotoIdDate {PhotoIdDate}";
         }
 
 

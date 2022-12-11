@@ -37,7 +37,8 @@
                 "dbo.Certificates",
                 c => new
                     {
-                        TitleOfCertificate = c.String(nullable: false, maxLength: 128),
+                        CertificateId = c.Int(nullable: false, identity: true),
+                        Title = c.String(nullable: false, maxLength: 128),
                         CandidateNumber = c.Int(nullable: false),
                         AssessmentTestCode = c.Int(nullable: false),
                         ExaminationDate = c.DateTime(nullable: false),
@@ -47,16 +48,45 @@
                         AssessmentResultLabel = c.String(),
                         PercentageScore = c.String(),
                     })
-                .PrimaryKey(t => t.TitleOfCertificate)
+                .PrimaryKey(t => t.CertificateId)
                 .ForeignKey("dbo.Candidates", t => t.CandidateNumber, cascadeDelete: true)
+                .ForeignKey("dbo.CertificateTitle", t => t.Title, cascadeDelete: true)
+                .Index(t => t.Title)
                 .Index(t => t.CandidateNumber);
+            
+            CreateTable(
+                "dbo.CertificateTitle",
+                c => new
+                    {
+                        Title = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Title);
+            
+            CreateTable(
+                "dbo.CertificateTopic",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Topic = c.String(),
+                        Mark = c.Int(nullable: false),
+                        CertificateId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Certificates", t => t.CertificateId, cascadeDelete: true)
+                .Index(t => t.CertificateId);
             
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.CertificateTopic", "CertificateId", "dbo.Certificates");
+            DropForeignKey("dbo.Certificates", "Title", "dbo.CertificateTitle");
             DropForeignKey("dbo.Certificates", "CandidateNumber", "dbo.Candidates");
+            DropIndex("dbo.CertificateTopic", new[] { "CertificateId" });
             DropIndex("dbo.Certificates", new[] { "CandidateNumber" });
+            DropIndex("dbo.Certificates", new[] { "Title" });
+            DropTable("dbo.CertificateTopic");
+            DropTable("dbo.CertificateTitle");
             DropTable("dbo.Certificates");
             DropTable("dbo.Candidates");
         }

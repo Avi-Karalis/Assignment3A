@@ -1,10 +1,10 @@
-﻿    using System;
+﻿namespace CodeFirstDB.Migrations
+{
+    using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-namespace CodeFirstDB.Migrations
-{
     internal sealed class Configuration : DbMigrationsConfiguration<CodeFirstDB.Services.Data.AppDBContext>
     {
         public Configuration()

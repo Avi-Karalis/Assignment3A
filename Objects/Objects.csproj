@@ -82,6 +82,8 @@
   <ItemGroup>
     <Compile Include="Models\Candidate.cs" />
     <Compile Include="Models\Certificate.cs" />
+    <Compile Include="Models\CertificateTitle.cs" />
+    <Compile Include="Models\CertificateTopic.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
